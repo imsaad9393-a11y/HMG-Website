@@ -845,6 +845,58 @@ dl {
 
 /* 13. FOOTER: same on every page. Columns slide in on scroll and links get an animated underline */
 /* LONG TEXT PAGE (privacy): comfortable reading width */
+/* TEAM PAGE: grid of profile cards with a square photo */
+.team {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 1.4rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.member {
+  padding: 1.2rem;
+  border-top: 6px solid var(--navy);
+  border-radius: var(--r);
+  background: var(--soft);
+}
+
+.member:nth-child(even) {
+  border-color: var(--green);
+}
+
+/* Square photo area. The grey silhouette shows until a real photo loads */
+.photo {
+  aspect-ratio: 1;
+  margin-bottom: 1rem;
+  overflow: hidden;
+  border-radius: var(--r);
+  background: #dfe3ff url("../images/avatar.svg") center/cover;
+}
+
+.photo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.member h2 {
+  margin-bottom: .2rem;
+  font-size: 1.35rem;
+}
+
+.role {
+  margin: 0 0 .6rem;
+  color: var(--navy);
+  font-weight: 700;
+}
+
+.detail {
+  margin: 0 0 .5rem;
+  color: var(--muted);
+}
 .prose {
   max-width: 75ch;
 }
