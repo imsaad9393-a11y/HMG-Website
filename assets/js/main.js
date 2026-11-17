@@ -123,7 +123,7 @@ if (!reduceMotion && 'IntersectionObserver' in window) {
     });
   }, { threshold: 0.15 });
 
-  var items = document.querySelectorAll('.tile, .svc, .svcpage, .fact, .grp h2, .split > div, .steps li, .band .wrap > *, .foot-grid > *, .foot-bottom');
+  var items = document.querySelectorAll('.tile, .svc, .svcpage, .fact, .member, .grp h2, .split > div, .steps li, .band .wrap > *, .foot-grid > *, .foot-bottom');
   items.forEach(function (item, i) {
     item.classList.add('reveal');
     item.style.setProperty('--d', (i % 4) * 90 + 'ms'); // small stagger between neighbours
