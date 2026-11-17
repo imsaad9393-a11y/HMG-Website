@@ -1,0 +1,6 @@
+<!-- Placeholder picture shown until a real photo is added -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <rect width="200" height="200" fill="#dfe3ff"/>
+  <circle cx="100" cy="78" r="36" fill="#a9aefc"/>
+  <path d="M30 200 C30 142 66 122 100 122 C134 122 170 142 170 200 Z" fill="#a9aefc"/>
+</svg>
