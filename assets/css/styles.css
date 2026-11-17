@@ -843,76 +843,193 @@ dl {
 }
 
 
-/* 13. FOOTER: same on every page. Columns slide in on scroll and links get an animated underline */
-/* LONG TEXT PAGE (privacy): comfortable reading width */
-/* TEAM PAGE: grid of profile cards with a square photo */
-.team {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-  gap: 1.4rem;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.member {
-  padding: 1.2rem;
-  border-top: 6px solid var(--navy);
-  border-radius: var(--r);
-  background: var(--soft);
-}
-
-.member:nth-child(even) {
-  border-color: var(--green);
-}
-
-/* Square photo area. The grey silhouette shows until a real photo loads */
-.photo {
-  aspect-ratio: 1;
-  margin-bottom: 1rem;
-  overflow: hidden;
-  border-radius: var(--r);
-  background: #dfe3ff url("../images/avatar.svg") center/cover;
-}
-
-.photo img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.member h2 {
-  margin-bottom: .2rem;
-  font-size: 1.35rem;
-}
-
-.role {
-  margin: 0 0 .6rem;
-  color: var(--navy);
-  font-weight: 700;
-}
-
-.detail {
-  margin: 0 0 .5rem;
-  color: var(--muted);
-}
+/* 13. LONG TEXT PAGE (privacy): comfortable reading width */
 .prose {
-  max-width: 75ch;
+    max-width: 75ch
 }
 
 .prose h2 {
-  margin-top: 2rem;
-  font-size: 1.4rem;
+    margin-top: 2rem;
+    font-size: 1.4rem
 }
 
 .prose p {
-  margin: 0 0 1rem;
+    margin: 0 0 1rem
 }
 
 .updated {
-  color: var(--muted);
+    color: var(--muted)
 }
+
+/* 14. TEAM PAGE: grid of profile cards with a square photo */
+.team {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 1.4rem;
+    margin: 0;
+    padding: 0;
+    list-style: none
+}
+
+.member {
+    padding: 1.2rem;
+    border-top: 6px solid var(--navy);
+    border-radius: var(--r);
+    background: var(--soft)
+}
+
+.member:nth-child(even) {
+    border-color: var(--green)
+}
+
+.photo {
+    aspect-ratio: 1;
+    margin-bottom: 1rem;
+    overflow: hidden;
+    border-radius: var(--r);
+    background: #dfe3ff url("../images/avatar.svg") center/cover
+}
+
+.photo img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top
+}
+
+.member h2 {
+    margin-bottom: .2rem;
+    font-size: 1.35rem
+}
+
+.role {
+    margin: 0 0 .6rem;
+    color: var(--navy);
+    font-weight: 700
+}
+
+.detail {
+    margin: 0 0 .5rem;
+    color: var(--muted)
+}
+
+/* 15. FEATURED PROFILE (Team page): large card at the top for the head of the centre */
+.hero-member {
+    display: grid;
+    grid-template-columns: minmax(200px, 300px) 1fr;
+    gap: 2rem;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding: 2rem;
+    border-radius: var(--r);
+    background: linear-gradient(135deg, var(--navy), var(--navy-d));
+    color: #fff
+}
+
+.hero-member .photo {
+    margin: 0
+}
+
+.hero-member h2 {
+    margin-bottom: .3rem;
+    color: #fff;
+    font-size: clamp(1.8rem, 4vw, 2.6rem)
+}
+
+.hero-member .role {
+    color: #9fe29a;
+    font-size: 1.15rem
+}
+
+.hero-member .detail {
+    color: #dfe3ff
+}
+
+@media (max-width:760px) {
+    .hero-member {
+        grid-template-columns: 1fr;
+        padding: 1.2rem
+    }
+}
+
+/* 16. QUESTIONS AND ANSWERS (home page) and SOCIAL LINKS (footer) */
+.faq details {
+    padding: 1rem 0;
+    border-top: 1px solid var(--line)
+}
+
+.faq details:last-of-type {
+    border-bottom: 1px solid var(--line)
+}
+
+.faq summary {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    font-size: 1.1rem;
+    font-weight: 700;
+    list-style: none;
+    cursor: pointer
+}
+
+.faq summary::-webkit-details-marker {
+    display: none
+}
+
+.faq summary::after {
+    content: "+";
+    color: var(--green-d);
+    font-size: 1.5rem;
+    line-height: 1;
+    transition: transform .3s
+}
+
+.faq details[open] summary::after {
+    transform: rotate(45deg)
+}
+
+.faq details p {
+    margin: .7rem 0 0;
+    color: var(--muted)
+}
+
+@media (prefers-reduced-motion:no-preference) {
+    .faq details[open] p {
+        animation: rise .4s ease both
+    }
+}
+
+.follow {
+    margin-top: 1.2rem
+}
+
+.social {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .5rem;
+    margin: 0;
+    padding: 0;
+    list-style: none
+}
+
+.foot .social li {
+    margin: 0
+}
+
+.foot .social a {
+    display: inline-block;
+    padding: .25rem .8rem;
+    border: 1px solid rgba(255, 255, 255, .45);
+    border-radius: 99px;
+    font-size: .95rem
+}
+
+.foot .social a:hover {
+    border-color: #fff
+}
+
+/* 17. FOOTER: same on every page. Columns slide in on scroll and links get an animated underline */
 .foot {
     position: relative;
     padding-top: 3.5rem;
@@ -1039,13 +1156,13 @@ dl {
     }
 }
 
-/* 14. MOBILE BAR (hidden on larger screens) */
+/* 18. MOBILE BAR (hidden on larger screens) */
 .dock {
     display: none
 }
 
 
-/* 15. ANIMATIONS: everything here is switched off for visitors who ask their device to reduce motion */
+/* 19. ANIMATIONS: everything here is switched off for visitors who ask their device to reduce motion */
 @keyframes rise {
     from {
         opacity: 0;
@@ -1220,7 +1337,7 @@ dl {
     }
 }
 
-/* 16. PHONE LAYOUT: changes that apply on screens 760px wide or less */
+/* 20. PHONE LAYOUT: changes that apply on screens 760px wide or less */
 @media (max-width:760px) {
     body {
         padding-bottom: 4.5rem
