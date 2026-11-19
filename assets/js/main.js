@@ -77,6 +77,56 @@ if (searchBox) {
 var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches; // visitor asked for less motion
 var pageHeader = document.getElementById('top');
 var hero = document.querySelector('.hero');
+var counter = document.querySelector('.count');   // the "01 / 05" text
+
+// Optional hero video: if assets/video/hero.mp4 exists, scrolling plays it like a film
+var heroVideo = document.querySelector('.hero-video');
+var videoTarget = 0;       // the moment of the film we want to show
+var videoEasing = false;
+
+// Moves the film a fifth of the way towards the wanted moment on every screen refresh, so it feels smooth
+function easeVideo() {
+  try {
+    var gap = videoTarget - heroVideo.currentTime;
+    if (!(Math.abs(gap) >= 0.03)) { videoEasing = false; return; }   // close enough: stop
+    heroVideo.currentTime += gap * 0.2;
+  } catch (error) {
+    videoEasing = false;     // if the browser refuses once, do not get stuck: the next scroll starts again
+    return;
+  }
+  requestAnimationFrame(easeVideo);
+}
+
+// p is 0 at the top of the hero and 1 at the end
+function scrubVideo(p) {
+  if (!hero.classList.contains('has-video') || !heroVideo.duration) return;
+  videoTarget = p * heroVideo.duration;
+  if (!videoEasing) { videoEasing = true; requestAnimationFrame(easeVideo); }
+}
+
+// Loads the whole film into memory first. Then jumping to any moment works instantly, even on simple
+// preview servers (like the VS Code preview) that cannot send a file in pieces
+function loadVideo(urls) {
+  fetch(urls[0])
+    .then(function (response) {
+      if (!response.ok) throw new Error('not found');
+      return response.blob();
+    })
+    .then(function (blob) { heroVideo.src = URL.createObjectURL(blob); })
+    .catch(function () {
+      if (urls.length > 1) loadVideo(urls.slice(1));                          // no phone file: try the main one
+      else if (location.protocol === 'file:') heroVideo.src = urls[0];        // opened from a folder: use the file directly
+    });
+}
+
+if (heroVideo && !reduceMotion) {
+  heroVideo.addEventListener('loadeddata', function () {
+    hero.classList.add('has-video');                  // the film is ready: fade it in
+    var start = heroVideo.play();                      // a quick play and pause lets phones show the pictures
+    if (start) start.then(function () { heroVideo.pause(); }).catch(function () {});
+  });
+  loadVideo(window.innerWidth <= 760 ? ['assets/video/hero-mobile.mp4', 'assets/video/hero.mp4'] : ['assets/video/hero.mp4']);
+}
 
 // Keeps a number between 0 and 1
 function clamp01(n) {
@@ -93,10 +143,17 @@ function onScroll() {
   var maxScroll = document.documentElement.scrollHeight - window.innerHeight;
   pageHeader.style.setProperty('--sp', maxScroll > 0 ? clamp01(y / maxScroll).toFixed(3) : 0);
 
-  // Hero: --p goes from 0 to 1 while the tall hero scrolls past. The CSS turns --p into the 4 lab stages
+  // Hero: p goes from 0 to 1 while the tall hero scrolls past. The CSS turns p into the chapters and the lab drawing
   if (hero && !reduceMotion) {
     var box = hero.getBoundingClientRect();
-    hero.style.setProperty('--p', clamp01(-box.top / (box.height - window.innerHeight)).toFixed(3));
+    var p = clamp01(-box.top / (box.height - window.innerHeight));
+    hero.style.setProperty('--p', p.toFixed(3));
+    scrubVideo(p);
+    var chapter = Math.min(4, Math.round(p * 4));        // which of the 5 chapters is on screen
+    if (hero.dataset.ch !== String(chapter)) {
+      hero.dataset.ch = chapter;                         // lets the CSS switch on the buttons of that chapter
+      counter.textContent = '0' + (chapter + 1) + ' / 05';
+    }
   }
 }
 
