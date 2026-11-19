@@ -24,3 +24,9 @@ Service descriptions are general and pending clinical review. Logo is cut from a
 No enquiry form (needs a secure backend). System fonts, light theme only. Not yet tested in a browser.
 Not yet included: photos, opening hours, sitemap and canonical tags, Phase 2-3 pages.
 - Scroll animation: the hero lab scene is driven by --p in main.js (Part 3) and the stage rules in styles.css.
+- Phase 2: genetic-counselling.html, genetic-testing.html, laboratory-diagnostics.html (general wording, pending clinical review).
+- Phase 3 (part 1): privacy.html, 404.html, SEO tags, sitemap.xml. Logo reduced to 600px wide. Privacy wording is a draft needing review.
+- Team page: team.html (4 dummy profiles + M. Saad). Add assets/images/saad.jpg. Remove noindex and add to sitemap.xml when real.
+- Added opening hours, social links, FAQ (home), og-image.png. The supplied SVG logo is a wrapped picture, not a true vector, so the PNG logo is kept.
+- Appointment buttons (WhatsApp) replace Call/WhatsApp buttons. Top bar with phone + social icons. Hero plays assets/video/hero.mp4 on scroll if the file exists.
+- Hero: old drawing removed, film loads into memory (fixes stuck scrolling). Top bar green. Footer: 5 services, contact list with icons, social icons.
