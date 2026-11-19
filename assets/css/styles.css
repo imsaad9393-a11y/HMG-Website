@@ -87,7 +87,69 @@ p {
 }
 
 
-/* 4. HEADER and NAVIGATION: shrinks and gets a shadow after scrolling (class "scrolled" is added by main.js) */
+/* 4. TOP BAR: slim strip above the menu. Phone number on the left, social icons on the right */
+.topbar {
+    background: var(--green-d);
+    color: #fff;
+    font-size: .85rem
+}
+
+.topbar-in {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 34px
+}
+
+.tb-phone {
+    display: inline-flex;
+    align-items: center;
+    gap: .45rem;
+    color: #fff;
+    font-weight: 600;
+    text-decoration: none
+}
+
+.tb-phone:hover {
+    text-decoration: underline
+}
+
+.tb-phone svg {
+    width: 14px;
+    height: 14px;
+    fill: currentColor
+}
+
+.tb-social {
+    display: flex;
+    gap: .2rem;
+    margin: 0;
+    padding: 0;
+    list-style: none
+}
+
+.tb-social a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    color: #fff;
+    transition: background .2s, color .2s
+}
+
+.tb-social a:hover {
+    background: rgba(255, 255, 255, .16);
+    color: #fff
+}
+
+.tb-social svg {
+    width: 17px;
+    height: 17px
+}
+
+/* 5. HEADER and NAVIGATION: shrinks and gets a shadow after scrolling (class "scrolled" is added by main.js) */
 .top {
     position: sticky;
     top: 0;
@@ -217,7 +279,7 @@ p {
     transform: rotate(-45deg)
 }
 
-/* 5. BUTTONS */
+/* 6. BUTTONS */
 .btn {
     display: inline-block;
     background: var(--navy);
@@ -246,44 +308,78 @@ p {
 }
 
 
-/* 6. HERO: a tall section. While you scroll through it, main.js sets --p (0 to 1) and --s1 to --s4 turn that into the four test stages */
+/* 7. HERO: a tall section. Scrolling sets --p (0 to 1) in main.js. The chapters and the film follow --p */
 .hero {
     --p: 0;
-    --s1: clamp(0, calc(var(--p) / .3), 1);
-    --s2: clamp(0, calc((var(--p) - .3) / .3), 1);
-    --s3: clamp(0, calc((var(--p) - .6) / .25), 1);
-    --s4: clamp(0, calc((var(--p) - .8) / .2), 1);
+    --c: calc(var(--p) * 4);
+    --s1: clamp(0, calc((var(--p) - .09) / .2), 1);
+    --s2: clamp(0, calc((var(--p) - .33) / .2), 1);
+    --s3: clamp(0, calc((var(--p) - .65) / .2), 1);
+    --s4: clamp(0, calc((var(--p) - .87) / .13), 1);
     position: relative;
-    height: 320vh;
-    background: radial-gradient(120% 90% at 85% 40%, #3b3fb0 0, var(--navy) 40%, var(--navy-d) 100%);
+    height: 500vh;
+    margin-top: -72px;
+    background: radial-gradient(90% 70% at 70% 45%, #2c3291 0, #171a5e 55%, #0d0f35 100%);
     color: #fff
 }
 
 .hero-stick {
     position: sticky;
     top: 0;
-    display: flex;
-    align-items: center;
     height: 100vh;
     height: 100svh;
-    padding-top: 84px;
     overflow: hidden
 }
 
-.hero-in {
-    display: grid;
-    grid-template-columns: 1fr 1.2fr;
-    gap: 2rem;
-    align-items: center
+
+
+.ch,
+.ls {
+    --v: min(clamp(0, calc((var(--c) - var(--i) + .5) * 3), 1), clamp(0, calc((var(--i) + .5 - var(--c)) * 3), 1));
+    opacity: var(--v)
 }
 
-.hero h1 {
-    font-size: clamp(2.1rem, 4.4vw, 3.4rem)
+
+.ch {
+    position: absolute;
+    left: 6vw;
+    top: 50%;
+    width: min(31rem, 38vw);
+    pointer-events: none;
+    translate: 0 calc(-50% + (var(--i) - var(--c)) * 36px)
 }
 
-.hero .lead {
+.hero[data-ch="4"] .ch4 a {
+    pointer-events: auto
+}
+
+.tag {
+    margin: 0 0 1rem;
+    color: #a9aefc;
+    font: 600 .8rem var(--sans);
+    letter-spacing: .18em;
+    text-transform: uppercase
+}
+
+.ch h1,
+.ch h2 {
+    max-width: none;
+    margin: 0 0 1rem;
+    color: #fff;
+    font: 800 clamp(2.2rem, 4.6vw, 4.2rem)/1.02 var(--sans);
+    letter-spacing: -.03em
+}
+
+.ch em {
+    color: #7ee06f;
+    font: italic 400 1.06em var(--serif);
+    letter-spacing: 0
+}
+
+.ch p:not(.tag):not(.actions) {
+    margin: 0;
     color: #dfe3ff;
-    font-size: 1.2rem
+    font-size: 1.1rem
 }
 
 .hero .btn {
@@ -297,216 +393,96 @@ p {
     box-shadow: inset 0 0 0 2px rgba(255, 255, 255, .55)
 }
 
-.hint {
-    margin-top: 2rem;
+.ls {
+    position: absolute;
+    right: 6vw;
+    top: 50%;
+    width: min(19rem, 24vw);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    translate: 0 calc(-50% + (var(--i) - var(--c)) * -36px)
+}
+
+.ls li {
+    padding: 1rem 0;
+    border-top: 1px solid rgba(255, 255, 255, .22)
+}
+
+.ls small {
+    display: block;
+    margin-bottom: .2rem;
+    color: #7ee06f;
+    font-size: .75rem;
+    letter-spacing: .14em
+}
+
+.ls b {
+    display: block;
+    color: #fff;
+    font-size: 1.05rem
+}
+
+.ls span {
+    color: #b9bfee;
+    font-size: .92rem
+}
+
+.hero-ui {
+    position: absolute;
+    left: 6vw;
+    right: 6vw;
+    bottom: 3.6rem;
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
     color: #a9aefc;
-    font-weight: 600;
-    opacity: clamp(0, calc(1 - var(--p) * 10), 1)
+    font: 600 .78rem var(--sans);
+    letter-spacing: .14em;
+    text-transform: uppercase
 }
 
-.hint::after {
-    content: "";
+.hint {
+    opacity: clamp(0, calc(1 - var(--p) * 12), 1)
+}
+
+.prog {
+    flex: 1;
+    height: 2px;
+    background: rgba(255, 255, 255, .2)
+}
+
+.prog span {
     display: block;
-    width: 12px;
-    height: 12px;
-    margin-top: .5rem;
-    border-right: 3px solid #5fd24f;
-    border-bottom: 3px solid #5fd24f;
-    transform: rotate(45deg)
+    height: 100%;
+    background: #7ee06f;
+    transform: scaleX(var(--p));
+    transform-origin: left
 }
 
-.caption {
-    display: grid;
-    justify-items: center;
-    min-height: 1.8rem;
-    margin-top: .6rem;
-    font-weight: 700
-}
-
-.caption span {
-    grid-area: 1/1;
-    opacity: 0
-}
-
-.caption .c1 {
-    opacity: clamp(0, calc((.3 - var(--p)) * 20), 1)
-}
-
-.caption .c2 {
-    opacity: min(clamp(0, calc((var(--p) - .3) * 20), 1), clamp(0, calc((.6 - var(--p)) * 20), 1))
-}
-
-.caption .c3 {
-    opacity: min(clamp(0, calc((var(--p) - .6) * 20), 1), clamp(0, calc((.8 - var(--p)) * 20), 1))
-}
-
-.caption .c4 {
-    opacity: clamp(0, calc((var(--p) - .8) * 20), 1)
-}
-
-/* 7. LAB SCENE: colours and movement of each drawn part. Stage 1 = pipette and tube, 2 = thermal cycler, 3 = gel, 4 = monitor */
-.lab {
-    display: block;
+.hero-video {
+    position: absolute;
+    inset: 0;
     width: 100%;
-    max-height: 62vh
-}
-
-.bench {
-    fill: #a9aefc;
-    opacity: .45
-}
-
-.panel {
-    fill: rgba(255, 255, 255, .09);
-    stroke: #a9aefc;
-    stroke-width: 2
-}
-
-.screen {
-    fill: #0e1040;
-    stroke: #a9aefc;
-    stroke-width: 2
-}
-
-.glass {
-    fill: rgba(255, 255, 255, .14);
-    stroke: #dfe3ff;
-    stroke-width: 2
-}
-
-.liquid {
-    fill: #5fd24f
-}
-
-.liquid.blue {
-    fill: #7f86ff
-}
-
-.grow {
-    transform-box: fill-box;
-    transform-origin: bottom;
-    transform: scaleY(var(--s1))
-}
-
-.twist line {
-    stroke: #fff;
-    stroke-opacity: .45;
-    stroke-width: 2.5
-}
-
-.dot-a {
-    fill: #5fd24f
-}
-
-.dot-b {
-    fill: #a9aefc
-}
-
-.pipette {
-    opacity: calc(1 - var(--s2));
-    transform: translateY(calc((1 - var(--s1)) * -50px - var(--s2) * 60px))
-}
-
-.pip {
-    fill: #dfe3ff
-}
-
-.drop {
-    fill: #5fd24f
-}
-
-.lid {
-    fill: #dfe3ff;
-    transform: translateY(calc((1 - var(--s2)) * -20px))
-}
-
-.temp {
+    height: 100%;
+    object-fit: cover;
     opacity: 0;
-    fill: #5fd24f;
-    font: 700 15px var(--sans);
-    text-anchor: middle
+    transition: opacity .8s
 }
 
-.t1 {
+.hero-shade {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity .8s;
+    background: linear-gradient(90deg, rgba(13, 15, 53, .82) 0, rgba(13, 15, 53, .4) 55%, rgba(13, 15, 53, .2) 100%), linear-gradient(0deg, rgba(13, 15, 53, .65), transparent 40%)
+}
+
+.hero.has-video .hero-video,
+.hero.has-video .hero-shade {
     opacity: 1
 }
 
-.cyc-track {
-    fill: rgba(255, 255, 255, .2)
-}
-
-.cyc-fill {
-    fill: #5fd24f;
-    transform-box: fill-box;
-    transform-origin: left;
-    transform: scaleX(var(--s2))
-}
-
-.heater circle {
-    fill: #ff9f43;
-    opacity: calc(.2 + var(--s2) * .8)
-}
-
-.led {
-    fill: #5fd24f
-}
-
-.gel-body {
-    fill: rgba(95, 210, 79, .14)
-}
-
-.well {
-    fill: #0e1040
-}
-
-.gband {
-    fill: #5fd24f;
-    transform: translateY(calc(var(--s3) * var(--d) * 1px))
-}
-
-.b2 {
-    fill: #7f86ff;
-    transform: translateY(calc(var(--s3) * var(--d) * .6px))
-}
-
-.stand {
-    fill: #a9aefc;
-    opacity: .6
-}
-
-.screen-title {
-    fill: #a9aefc;
-    font: 600 11px var(--sans)
-}
-
-.tr {
-    fill: none;
-    stroke-width: 2.5;
-    stroke-linecap: round;
-    stroke-dasharray: 1;
-    stroke-dashoffset: calc(1 - var(--s4))
-}
-
-.tr1 {
-    stroke: #5fd24f
-}
-
-.tr2 {
-    stroke: #6fa0ff
-}
-
-.tr3 {
-    stroke: #ff6b6b
-}
-
-.tr4 {
-    stroke: #dfe3ff
-}
-
-.scan {
-    fill: #5fd24f;
-    opacity: .35
-}
 
 /* 8. HOME PAGE SECTIONS: tiles, about, steps, contact band */
 .block {
@@ -1000,34 +976,10 @@ dl {
     }
 }
 
-.follow {
-    margin-top: 1.2rem
-}
 
-.social {
-    display: flex;
-    flex-wrap: wrap;
-    gap: .5rem;
-    margin: 0;
-    padding: 0;
-    list-style: none
-}
 
-.foot .social li {
-    margin: 0
-}
 
-.foot .social a {
-    display: inline-block;
-    padding: .25rem .8rem;
-    border: 1px solid rgba(255, 255, 255, .45);
-    border-radius: 99px;
-    font-size: .95rem
-}
 
-.foot .social a:hover {
-    border-color: #fff
-}
 
 /* 17. FOOTER: same on every page. Columns slide in on scroll and links get an animated underline */
 .foot {
@@ -1086,7 +1038,8 @@ dl {
 }
 
 .foot li {
-    margin-bottom: .45rem
+    margin: 0;
+    line-height: 2
 }
 
 .foot p {
@@ -1095,7 +1048,8 @@ dl {
 
 .foot address {
     font-style: normal;
-    line-height: 1.8
+    line-height: 2;
+    overflow-wrap: anywhere
 }
 
 .foot a {
@@ -1156,13 +1110,54 @@ dl {
     }
 }
 
-/* 18. MOBILE BAR (hidden on larger screens) */
+/* 18. FOOTER CONTACT LIST AND SOCIAL ICONS */
+.contact-list {
+    margin: 0;
+    padding: 0;
+    list-style: none
+}
+
+.foot .contact-list li {
+    margin: 0 0 .35rem
+}
+
+.foot .contact-list a {
+    display: inline-flex;
+    align-items: center;
+    gap: .6rem
+}
+
+.contact-list svg {
+    flex: none;
+    width: 18px;
+    height: 18px;
+    color: #7ee06f
+}
+
+.foot .foot-social {
+    gap: .6rem;
+    margin-top: 1.2rem
+}
+
+.foot .foot-social a {
+    width: 38px;
+    height: 38px;
+    border: 1px solid rgba(255, 255, 255, .35);
+    background: none
+}
+
+.foot .foot-social a:hover {
+    border-color: #fff;
+    background: rgba(255, 255, 255, .14)
+}
+
+/* 19. MOBILE BAR (hidden on larger screens) */
 .dock {
     display: none
 }
 
 
-/* 19. ANIMATIONS: everything here is switched off for visitors who ask their device to reduce motion */
+/* 20. ANIMATIONS: everything here is switched off for visitors who ask their device to reduce motion */
 @keyframes rise {
     from {
         opacity: 0;
@@ -1241,12 +1236,6 @@ dl {
 }
 
 @media (prefers-reduced-motion:no-preference) {
-    .twist {
-        transform-box: fill-box;
-        transform-origin: center;
-        animation: twist 4.8s ease-in-out infinite;
-        animation-delay: calc(var(--i) * -.45s)
-    }
 
     .led {
         animation: blink 1s infinite
@@ -1264,29 +1253,17 @@ dl {
         animation-delay: 4s
     }
 
-    .scan {
-        animation: sweep 3.5s linear infinite
-    }
-
     .drop {
         animation: drip 1.4s ease-in infinite
     }
 
-    .hero-text h1,
-    .hero-text .lead,
-    .hero-text .actions,
     .pagehead h1,
     .pagehead .lead {
         animation: rise .8s ease both
     }
 
-    .hero-text .lead,
     .pagehead .lead {
         animation-delay: .15s
-    }
-
-    .hero-text .actions {
-        animation-delay: .3s
     }
 
     .btn.small {
@@ -1321,15 +1298,16 @@ dl {
 }
 
 @media (prefers-reduced-motion:reduce) {
+
+    /* No scroll animation: the hero is one normal screen showing the first chapter */
     .hero {
-        --p: 1;
         height: auto
     }
 
     .hero-stick {
-        position: static;
+        position: relative;
         height: auto;
-        padding-block: 3rem
+        min-height: 90vh
     }
 
     .hint {
@@ -1337,7 +1315,7 @@ dl {
     }
 }
 
-/* 20. PHONE LAYOUT: changes that apply on screens 760px wide or less */
+/* 21. PHONE LAYOUT: changes that apply on screens 760px wide or less */
 @media (max-width:760px) {
     body {
         padding-bottom: 4.5rem
@@ -1379,39 +1357,45 @@ dl {
     }
 
     .hero {
-        height: 260vh
+        height: 420vh
     }
 
-    .hero-stick {
-        align-items: flex-start;
-        padding-top: 76px
+
+    .ch {
+        left: 1.2rem;
+        right: 1.2rem;
+        top: 84px;
+        width: auto;
+        translate: 0 calc((var(--i) - var(--c)) * 24px)
     }
 
-    .hero-in {
-        grid-template-columns: 1fr;
-        gap: .5rem;
-        padding-top: 1rem
+    .ch h1,
+    .ch h2 {
+        font-size: clamp(1.9rem, 8.4vw, 2.6rem)
     }
 
-    .hero h1 {
-        font-size: 2rem
+    .ch p:not(.tag):not(.actions) {
+        font-size: .98rem
     }
 
-    .hero .lead {
-        margin: 0;
-        font-size: 1rem
+    .tag {
+        margin-bottom: .6rem;
+        font-size: .7rem
     }
 
-    .hero .actions {
+    .ch .actions {
         display: none
     }
 
-    .hint {
-        margin-top: .6rem
+    .ls {
+        display: none
     }
 
-    .lab {
-        max-height: 36vh
+
+    .hero-ui {
+        left: 1.2rem;
+        right: 1.2rem;
+        bottom: 6.2rem
     }
 
     .foot-grid {
@@ -1436,5 +1420,9 @@ dl {
     .dock .btn {
         flex: 1;
         text-align: center
+    }
+
+    .hero-shade {
+        background: linear-gradient(180deg, rgba(13, 15, 53, .88) 0, rgba(13, 15, 53, .4) 55%, rgba(13, 15, 53, .6) 100%)
     }
 }
